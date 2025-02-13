@@ -1,0 +1,9 @@
+.hidden-item-parent div {
+    cursor: pointer;
+    display: none;
+  }
+  
+  .hidden-item-parent:hover div{
+    display: inline;
+  }
+  
