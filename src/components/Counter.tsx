@@ -9,24 +9,25 @@ const styleButtn = "text-white h-[20px] w-[20px] box-border opacity-100 hover:op
 interface CounterProps {
     count: number;
     onStatChanged: (newValue: number) => void;
+    isMinDisable?: boolean;
+    isMaxDisable?: boolean;
 }
 
 
 
-function Counter({ count, onStatChanged }: CounterProps) {
-
+function Counter({ count, onStatChanged, isMinDisable, isMaxDisable }: CounterProps) {
 
     return (
         <div className="flex h-full justify-center items-center ">
 
             <div className={styleButtn}>
-                <Button onClick={() => { onStatChanged(count - 1) }} circle className='bg-slate-500 ' ><TiMinus size={16} /></Button>
+                <Button onClick={() => { onStatChanged(count - 1) }} disable={count <= 0 || isMinDisable} circle className='bg-slate-500 ' ><TiMinus size={16} /></Button>
             </div>
 
-            <span className="mx-2 ">{count}</span>
+            <span className=" w-8 flex justify-center ">{count}</span>
 
             <div className={styleButtn}>
-                <Button onClick={() => { onStatChanged(count + 1) }} circle className='bg-slate-500 ' ><TiPlus size={16} /></Button>
+                {<Button onClick={() => { onStatChanged(count + 1) }} disable={count >= 100 || isMaxDisable} circle className='bg-slate-500' ><TiPlus size={16} /></Button>}
             </div>
 
         </div>

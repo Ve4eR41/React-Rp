@@ -1,9 +1,8 @@
-.hidden-item-parent div {
-    cursor: pointer;
-    display: none;
-  }
-  
-  .hidden-item-parent:hover div{
-    display: inline;
-  }
-  
+.hidden-item-parent .hidden-item-children {
+  cursor: pointer;
+  display: none;
+}
+
+.hidden-item-parent:hover .hidden-item-children {
+  display: inline;
+}

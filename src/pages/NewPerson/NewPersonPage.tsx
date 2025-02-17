@@ -4,18 +4,22 @@ import StatsList from "../../components/Person/Stats/StatsList.tsx"
 import PointPanel from "../../components/PointPanel"
 import { useMemo, useState } from "react"
 import InputText from "../../components/InputText"
-import { Person, PersonProps } from "../../classes/Person.ts"
+import { Person, PersonAnyProps, PersonChartersProps, PersonSkillsProps } from "../../classes/Person.ts"
 
 
 
 function NewPerson() {
-    const [personProps, setPersonProps] = useState<PersonProps>(new PersonProps())
-
+    const [personAnyProps, setPersonAnyProps] = useState<PersonAnyProps>(new PersonAnyProps());
+    const [personChartersProps, setPersonChartersProps] = useState<PersonChartersProps>(new PersonChartersProps());
+    const [personSkillsProps, setPersonSkillsProps] = useState<PersonSkillsProps>(new PersonSkillsProps());
+    const limitPointsCharters = 30;
+    const limitPointsSkills = 15;
     // ------------------------------------------------------
-    const person = useMemo(() => {
-        const person = new Person(personProps);
-        return person;
-    }, [personProps]);
+    // убрал зависимость от personSkillsProps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const person = useMemo(() => new Person(personAnyProps, personChartersProps, personSkillsProps), [personAnyProps, personChartersProps]);
+    const curPointsCharters = useMemo(() => Object.values(personChartersProps).reduce((acc, cur) => acc + cur, 0), [personChartersProps]);
+    const curPointsSkills = useMemo(() => Object.values(personSkillsProps).reduce((acc, cur) => acc + cur, 0), [personSkillsProps]);
 
 
 
@@ -28,23 +32,62 @@ function NewPerson() {
             </div>
             <div>
                 <div className="opacity-70 text-sm">lvl {person.lvl}</div>
-                <InputText className='mt-2' label='Имя' onInput={(newValue: string) => setPersonProps({ ...personProps, name: newValue })} textInput={person.name} />
-                <PointPanel stats={{ hp: 5, max_hp: 10, sp: 5, max_sp: 5, mp: 1, max_mp: 32 }} />
+                <InputText className='mt-2' label='Имя' onInput={(newValue: string) => setPersonAnyProps({ ...PersonSkillsProps, name: newValue })} textInput={person.name} />
+                <PointPanel person={person} />
             </div>
         </Panel>
 
+        
 
-        <Panel className='my-5 '>
-            <h1 className="text-xl font-bold m-3 mb-5 ">Характеристики</h1>
-            <StatsList isNoViewBaseLvl isCleanStyle isBorder className='p-0 flex items-start justify-center' onStatChanged={setPersonProps} personProps={personProps} stats={person.charters} ></StatsList>
+        <Panel className="mt-5">
+            <h1 className="text-xl font-bold mr-2 ">Описание</h1>
+            <textarea className="w-full" placeholder="Предистория, описание характера и внешности... " name="" id="" ></textarea>
         </Panel>
 
 
 
-        <div className='grid grid-cols-[auto_auto_auto] gap-3'>
-            <StatsList isEven onStatChanged={setPersonProps} personProps={personProps} stats={person.skills.strength} />
-            <StatsList isEven onStatChanged={setPersonProps} personProps={personProps} stats={person.skills.agility}  />
-            <StatsList isEven onStatChanged={setPersonProps} personProps={personProps} stats={person.skills.intell} />
+        <StatsList headers="Характеристики"
+            curPoints={curPointsCharters}
+            limitPoints={limitPointsCharters}
+            isNoViewBaseLvl
+            isBorder
+            isHorizon
+            className='my-5'
+            isMaxDisable={curPointsCharters >= limitPointsCharters}
+            onStatChanged={setPersonChartersProps}
+            personProps={personChartersProps}
+            stats={person.charters}
+        />
+
+
+
+        <div className='grid grid-cols-[1fr_1fr_1fr] gap-3'>
+            <StatsList headers="Сила"
+                limitPoints={limitPointsSkills}
+                curPoints={curPointsSkills}
+                isEven
+                onStatChanged={setPersonSkillsProps}
+                isMaxDisable={curPointsSkills >= limitPointsSkills}
+                personProps={personSkillsProps}
+                stats={person.skills.strength} />
+
+            <StatsList headers="Ловкость"
+                limitPoints={limitPointsSkills}
+                curPoints={curPointsSkills}
+                isEven
+                onStatChanged={setPersonSkillsProps}
+                isMaxDisable={curPointsSkills >= limitPointsSkills}
+                personProps={personSkillsProps}
+                stats={person.skills.agility} />
+
+            <StatsList headers="Интеллект"
+                limitPoints={limitPointsSkills}
+                curPoints={curPointsSkills}
+                isEven
+                onStatChanged={setPersonSkillsProps}
+                isMaxDisable={curPointsSkills >= limitPointsSkills}
+                personProps={personSkillsProps}
+                stats={person.skills.intell} />
         </div>
 
     </Panel>
