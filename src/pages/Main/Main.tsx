@@ -19,7 +19,7 @@ interface Person {
 }
 
 function Main() {
-    const { details } = useLoaderData();
+    const { details } = useLoaderData() ;
 
 
     // ------------------------------------------------------

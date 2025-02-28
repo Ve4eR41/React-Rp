@@ -18,6 +18,7 @@ interface PointPanelProps {
 
 function PointPanel({ person }: PointPanelProps) {
     const { hp, max_hp, sp, max_sp, mp, max_mp, crit, de_crit } = person;
+
     return (
         <div className="flex  ">
             <Point isHp point={hp} maxPoint={max_hp} className="my-1 mr-2" />

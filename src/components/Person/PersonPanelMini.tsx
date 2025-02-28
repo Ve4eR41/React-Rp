@@ -33,7 +33,7 @@ function PersonPanelMini({ person, className }: PersonPanelMiniProps) {
             <div>
                 <div className="opacity-70 text-sm">lvl {lvl}</div>
                 <div>{name}</div>
-                <PointPanel stats={{ hp, max_hp, sp, max_sp, mp, max_mp }} />
+                <PointPanel person={{ hp, max_hp, sp, max_sp, mp, max_mp }} />
             </div>
         </Panel>
     )
