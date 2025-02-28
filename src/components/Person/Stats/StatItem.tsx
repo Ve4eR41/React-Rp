@@ -19,7 +19,7 @@ interface StatItemsProps {
 
 
 function StatItem({ stat, count, className, onStatChanged, isNoViewBaseLvl, isMinDisable, isMaxDisable }: StatItemsProps) {
-    const { label, descript, base } = stat;
+    const { label, description: descript, base } = stat;
     const isEditModeOn = true;
 
 

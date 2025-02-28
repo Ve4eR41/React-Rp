@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Panel from "../../Panel"
 import StatItem from "./StatItem.tsx";
-import { PersonChartersProps, PersonSkillsProps, Stat, Charters } from "../../../classes/Person";
+import { PersonChartersProps, PersonSkillsProps, Stat, Charters } from "../../../classes/Person.ts";
 import Point from "../../Point.tsx";
 
 
@@ -37,9 +37,9 @@ function StatsList({ stats, onStatChanged, personProps, className, isCleanStyle,
     })
 
 
-
-    const renderCharters = Object.values(stats).map((el) => {
-        const statId = el.id as keyof PersonChartersProps;
+    const statsKeys = Object.keys(stats);
+    const renderCharters = Object.values(stats).map((el, i) => {
+        const statId = statsKeys[i];
         return < StatItem key={statId}
             className={classes}
             isNoViewBaseLvl={isNoViewBaseLvl}

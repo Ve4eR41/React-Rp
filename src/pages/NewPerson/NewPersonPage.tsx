@@ -17,7 +17,7 @@ function NewPerson() {
     // ------------------------------------------------------
     // убрал зависимость от personSkillsProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const person = useMemo(() => new Person(personAnyProps, personChartersProps, personSkillsProps), [personAnyProps, personChartersProps]);
+    const person = useMemo(() => new Person({ ...personAnyProps, ...personChartersProps, ...personSkillsProps }), [personAnyProps, personChartersProps]);
     const curPointsCharters = useMemo(() => Object.values(personChartersProps).reduce((acc, cur) => acc + cur, 0), [personChartersProps]);
     const curPointsSkills = useMemo(() => Object.values(personSkillsProps).reduce((acc, cur) => acc + cur, 0), [personSkillsProps]);
 
@@ -32,12 +32,12 @@ function NewPerson() {
             </div>
             <div>
                 <div className="opacity-70 text-sm">lvl {person.lvl}</div>
-                <InputText className='mt-2' label='Имя' onInput={(newValue: string) => setPersonAnyProps({ ...PersonSkillsProps, name: newValue })} textInput={person.name} />
+                <InputText className='mt-2' label='Имя' onInput={(newValue: string) => setPersonAnyProps({ ...personAnyProps, name: newValue })} textInput={person.name} />
                 <PointPanel person={person} />
             </div>
         </Panel>
 
-        
+
 
         <Panel className="mt-5">
             <h1 className="text-xl font-bold mr-2 ">Описание</h1>
